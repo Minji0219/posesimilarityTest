@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <!-- Load TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <!-- Load Posenet -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+    <!-- Load posenet-similarity -->
+    <script src="https://cdn.jsdelivr.net/npm/posenet-similarity/dist/posenet-similarity.min.js"></script>
+ </head>
+
+  <body>
+    <img id='pose1' src='/images/pose1.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose2' src='/images/pose2.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose3' src='/images/pose3.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose4' src='/images/pose4.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose5' src='/images/pose5.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose6' src='/images/pose6.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose7' src='/images/pose7.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose8' src='/images/pose8.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose9' src='/images/pose9.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose10' src='/images/pose10.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose11' src='/images/pose11.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose12' src='/images/pose12.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose13' src='/images/pose13.jpg '
+    style="width:200px; height:200px;"/>
+    <img id='pose14' src='/images/pose14.jpg '
+    style="width:200px; height:200px;"/>
+  </body>
+
+  <script>
+  for (var i = 1; i < 15; i++) {
+    eval("var pose" + i + "ImageElement = document.getElementById('pose" + i + "');");
+  }
+
+  /*
+    var pose1ImageElement = document.getElementById('pose1');
+    var pose2ImageElement = document.getElementById('pose2');
+    var pose3ImageElement = document.getElementById('pose3');
+    var pose4ImageElement = document.getElementById('pose4');
+    var pose5ImageElement = document.getElementById('pose5');
+    var pose6ImageElement = document.getElementById('pose6');
+    var pose7ImageElement = document.getElementById('pose7');
+*/
+    // For more detailed Posenet setup, please refer its own document.
+    // Load Posenet model
+    posenet.load().then(function(net) {
+      // Estimate the two poses
+      return Promise.all([
+        net.estimateSinglePose(pose1ImageElement),
+        net.estimateSinglePose(pose2ImageElement),
+        net.estimateSinglePose(pose3ImageElement),
+        net.estimateSinglePose(pose4ImageElement),
+        net.estimateSinglePose(pose5ImageElement),
+        net.estimateSinglePose(pose6ImageElement),
+        net.estimateSinglePose(pose7ImageElement),
+        net.estimateSinglePose(pose8ImageElement),
+        net.estimateSinglePose(pose9ImageElement),
+        net.estimateSinglePose(pose10ImageElement),
+        net.estimateSinglePose(pose11ImageElement),
+        net.estimateSinglePose(pose12ImageElement),
+        net.estimateSinglePose(pose13ImageElement),
+        net.estimateSinglePose(pose14ImageElement)
+      ])
+    }).then(function(poses){
+      // Calculate the weighted distance between the two poses
+      for (var i = 0; i < 14; i++) {
+        var weightedDistance = pns.poseSimilarity(poses[0], poses[i], { strategy: 'cosineSimilarity' });
+        console.log("pose0 과 pose" + i+ " : "+ weightedDistance)
+      }
+      
+      /*
+      var weightedDistance = pns.poseSimilarity(poses[0], poses[1], { strategy: 'cosineSimilarity' });
+      console.log("pose1 과 pose2 :"+ weightedDistance)
+      var weightedDistance = pns.poseSimilarity(poses[0], poses[2], { strategy: 'cosineSimilarity' });
+      console.log("pose1 과 pose3 :"+ weightedDistance)
+      var weightedDistance = pns.poseSimilarity(poses[0], poses[3], { strategy: 'cosineSimilarity' });
+      console.log("pose1 과 pose4 :"+ weightedDistance)
+      var weightedDistance = pns.poseSimilarity(poses[0], poses[4], { strategy: 'cosineSimilarity' });
+      console.log("pose1 과 pose5 :"+ weightedDistance)
+      var weightedDistance = pns.poseSimilarity(poses[0], poses[5], { strategy: 'cosineSimilarity' });
+      console.log("pose1 과 pose6 :"+ weightedDistance)
+      var weightedDistance = pns.poseSimilarity(poses[0], poses[6], { strategy: 'cosineSimilarity' });
+      console.log("pose1 과 pose7 :"+ weightedDistance)*/
+    })
+  </script>
+</html>
